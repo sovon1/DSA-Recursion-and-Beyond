@@ -10,5 +10,5 @@ I'm currently learning from various online resources and solving problems on pla
 ## Progress Tracker
 | Topic          | Problems Solved |
 |----------------|-----------------|
-| Recursion      | 10             |
+| Recursion      | 11             |
 | Backtracking   | 0              |
