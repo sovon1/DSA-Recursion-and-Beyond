@@ -13,7 +13,7 @@ I'm currently learning from various online resources and solving problems on pla
 | Recursion      | 11             |
 | Backtracking   | 0              |
 
-```
+```cpp
 void backtrack(params, state, result) {
     // Base case: solution found
     if (condition_met) {
