@@ -1,8 +1,16 @@
-
-```markdown
 # Sovon's DSA and CP Journey 🚀
+
 Welcome to my journey of mastering Competitive Programming and Data Structures & Algorithms (DSA).  
 I'm currently learning from various online resources and solving problems on platforms like Codeforces and LeetCode.
+
+## Table of Contents
+- [Topics Covered](#topics-covered)
+- [Progress Tracker](#progress-tracker)
+- [Example Code Snippets](#example-code-snippets)
+  - [Backtracking Algorithm](#backtracking-algorithm)
+  - [Permutation Generation](#permutation-generation)
+  - [Permutation Tree Visualization](#permutation-tree-visualization)
+- [Contribution](#contribution)
 
 ## Topics Covered
 - [x] Recursion
@@ -104,3 +112,5 @@ Root: idx=0, arr={1,2,3}
     │       └── idx=2, arr={3,1,2} → idx=3 (Base: {3,1,2})
 ```
 
+## Contribution
+Feel free to contribute by submitting issues or pull requests. Make sure to follow the contribution guidelines.
