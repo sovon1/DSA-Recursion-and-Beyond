@@ -112,5 +112,63 @@ Root: idx=0, arr={1,2,3}
     │       └── idx=2, arr={3,1,2} → idx=3 (Base: {3,1,2})
 ```
 
+### Detailed Permutation Tree Visualization
+Here's a detailed visual representation of the permutation generation process:
+
+```
+Root: idx=0, arr={1,2,3}
+├── i=0: swap(arr[0], arr[0]) → {1,2,3} (no change)
+│   ├── Call: idx=1, arr={1,2,3}
+│   │   ├── i=1: swap(arr[1], arr[1]) → {1,2,3} (no change)
+│   │   │   ├── Call: idx=2, arr={1,2,3}
+│   │   │   │   └── i=2: swap(arr[2], arr[2]) → {1,2,3} (no change)
+│   │   │   │       ├── Call: idx=3, arr={1,2,3}
+│   │   │   │       │   └── Base case: Add {1,2,3} to nv
+│   │   │   │       └── Backtrack: swap(arr[2], arr[2]) → {1,2,3}
+│   │   │   └── Backtrack: swap(arr[1], arr[1]) → {1,2,3}
+│   │   └── i=2: swap(arr[1], arr[2]) → {1,3,2}
+│   │       ├── Call: idx=2, arr={1,3,2}
+│   │       │   └── i=2: swap(arr[2], arr[2]) → {1,3,2} (no change)
+│   │       │       ├── Call: idx=3, arr={1,3,2}
+│   │       │       │   └── Base case: Add {1,3,2} to nv
+│   │       │       └── Backtrack: swap(arr[2], arr[2]) → {1,3,2}
+│   │       └── Backtrack: swap(arr[1], arr[2]) → {1,2,3}
+│   └── Backtrack: swap(arr[0], arr[0]) → {1,2,3}
+├── i=1: swap(arr[0], arr[1]) → {2,1,3}
+│   ├── Call: idx=1, arr={2,1,3}
+│   │   ├── i=1: swap(arr[1], arr[1]) → {2,1,3} (no change)
+│   │   │   ├── Call: idx=2, arr={2,1,3}
+│   │   │   │   └── i=2: swap(arr[2], arr[2]) → {2,1,3} (no change)
+│   │   │   │       ├── Call: idx=3, arr={2,1,3}
+│   │   │   │       │   └── Base case: Add {2,1,3} to nv
+│   │   │   │       └── Backtrack: swap(arr[2], arr[2]) → {2,1,3}
+│   │   │   └── Backtrack: swap(arr[1], arr[1]) → {2,1,3}
+│   │   └── i=2: swap(arr[1], arr[2]) → {2,3,1}
+│   │       ├── Call: idx=2, arr={2,3,1}
+│   │       │   └── i=2: swap(arr[2], arr[2]) → {2,3,1} (no change)
+│   │       │       ├── Call: idx=3, arr={2,3,1}
+│   │       │       │   └── Base case: Add {2,3,1} to nv
+│   │       │       └── Backtrack: swap(arr[2], arr[2]) → {2,3,1}
+│   │       └── Backtrack: swap(arr[1], arr[2]) → {2,1,3}
+│   └── Backtrack: swap(arr[0], arr[1]) → {1,2,3}
+└── i=2: swap(arr[0], arr[2]) → {3,2,1}
+    ├── Call: idx=1, arr={3,2,1}
+    │   ├── i=1: swap(arr[1], arr[1]) → {3,2,1} (no change)
+    │   │   ├── Call: idx=2, arr={3,2,1}
+    │   │   │   └── i=2: swap(arr[2], arr[2]) → {3,2,1} (no change)
+    │   │   │       ├── Call: idx=3, arr={3,2,1}
+    │   │   │       │   └── Base case: Add {3,2,1} to nv
+    │   │   │       └── Backtrack: swap(arr[2], arr[2]) → {3,2,1}
+    │   │   └── Backtrack: swap(arr[1], arr[1]) → {3,2,1}
+    │   └── i=2: swap(arr[1], arr[2]) → {3,1,2}
+    │       ├── Call: idx=2, arr={3,1,2}
+    │       │   └── i=2: swap(arr[2], arr[2]) → {3,1,2} (no change)
+    │       │       ├── Call: idx=3, arr={3,1,2}
+    │       │       │   └── Base case: Add {3,1,2} to nv
+    │       │       └── Backtrack: swap(arr[2], arr[2]) → {3,1,2}
+    │       └── Backtrack: swap(arr[1], arr[2]) → {3,2,1}
+    └── Backtrack: swap(arr[0], arr[2]) → {1,2,3}
+```
+
 ## Contribution
 Feel free to contribute by submitting issues or pull requests. Make sure to follow the contribution guidelines.
