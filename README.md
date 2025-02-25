@@ -10,6 +10,7 @@ I'm currently learning from various online resources and solving problems on pla
   - [Backtracking Algorithm](#backtracking-algorithm)
   - [Permutation Generation](#permutation-generation)
   - [Permutation Tree Visualization](#permutation-tree-visualization)
+  - [N-Queens Problem](#n-queens-problem)
 - [Contribution](#contribution)
 
 ## Topics Covered
@@ -112,63 +113,239 @@ Root: idx=0, arr={1,2,3}
     │       └── idx=2, arr={3,1,2} → idx=3 (Base: {3,1,2})
 ```
 
-### Detailed Permutation Tree Visualization
-Here's a detailed visual representation of the permutation generation process:
+### N-Queens Problem
+This example demonstrates solving the N-Queens problem using backtracking.
 
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+// Function to check if it's safe to place a queen at board[row][col]
+bool issafe(int row, int col, vector<string>& board, int n) {
+    int duprow = row;
+    int dupcol = col;
+
+    // Check upper diagonal on left side
+    while (row >= 0 && col >= 0) {
+        if (board[row][col] == 'Q') return false;
+        row--;
+        col--;
+    }
+
+    // Check left side
+    row = duprow;
+    col = dupcol;
+    while (col >= 0) {
+        if (board[row][col] == 'Q') return false;
+        col--;
+    }
+
+    // Check lower diagonal on left side
+    row = duprow;
+    col = dupcol;
+    while (row < n && col >= 0) {
+        if (board[row][col] == 'Q') return false;
+        row++;
+        col--;
+    }
+
+    return true;
+}
+
+// Function to solve the N-Queen problem
+void solve(int col, vector<string> &board, vector<vector<string>> &ans, int n) {
+    if (col == n) {
+        ans.push_back(board);
+        return;
+    }
+
+    // Perform row-wise traversal to check if placing queen is safe
+    for (int row = 0; row < n; row++) {
+        if (issafe(row, col, board, n)) {
+            board[row][col] = 'Q';
+            solve(col + 1, board, ans, n);
+            board[row][col] = '.'; // Backtrack
+        }
+    }
+}
+
+int main() {
+    int n = 4; 
+
+    // Initialize the board with empty strings
+    vector<string> board(n, string(n, '.'));
+  
+    // This will store all the possible solutions
+    vector<vector<string>> ans;
+
+    // Start solving from the first column
+    solve(0, board, ans, n);
+
+    // Print all the solutions
+    for (auto solution : ans) {
+        for (auto row : solution) {
+            cout << row << endl;
+        }
+        cout << endl;
+    }
+
+    return 0;
+}
 ```
-Root: idx=0, arr={1,2,3}
-├── i=0: swap(arr[0], arr[0]) → {1,2,3} (no change)
-│   ├── Call: idx=1, arr={1,2,3}
-│   │   ├── i=1: swap(arr[1], arr[1]) → {1,2,3} (no change)
-│   │   │   ├── Call: idx=2, arr={1,2,3}
-│   │   │   │   └── i=2: swap(arr[2], arr[2]) → {1,2,3} (no change)
-│   │   │   │       ├── Call: idx=3, arr={1,2,3}
-│   │   │   │       │   └── Base case: Add {1,2,3} to nv
-│   │   │   │       └── Backtrack: swap(arr[2], arr[2]) → {1,2,3}
-│   │   │   └── Backtrack: swap(arr[1], arr[1]) → {1,2,3}
-│   │   └── i=2: swap(arr[1], arr[2]) → {1,3,2}
-│   │       ├── Call: idx=2, arr={1,3,2}
-│   │       │   └── i=2: swap(arr[2], arr[2]) → {1,3,2} (no change)
-│   │       │       ├── Call: idx=3, arr={1,3,2}
-│   │       │       │   └── Base case: Add {1,3,2} to nv
-│   │       │       └── Backtrack: swap(arr[2], arr[2]) → {1,3,2}
-│   │       └── Backtrack: swap(arr[1], arr[2]) → {1,2,3}
-│   └── Backtrack: swap(arr[0], arr[0]) → {1,2,3}
-├── i=1: swap(arr[0], arr[1]) → {2,1,3}
-│   ├── Call: idx=1, arr={2,1,3}
-│   │   ├── i=1: swap(arr[1], arr[1]) → {2,1,3} (no change)
-│   │   │   ├── Call: idx=2, arr={2,1,3}
-│   │   │   │   └── i=2: swap(arr[2], arr[2]) → {2,1,3} (no change)
-│   │   │   │       ├── Call: idx=3, arr={2,1,3}
-│   │   │   │       │   └── Base case: Add {2,1,3} to nv
-│   │   │   │       └── Backtrack: swap(arr[2], arr[2]) → {2,1,3}
-│   │   │   └── Backtrack: swap(arr[1], arr[1]) → {2,1,3}
-│   │   └── i=2: swap(arr[1], arr[2]) → {2,3,1}
-│   │       ├── Call: idx=2, arr={2,3,1}
-│   │       │   └── i=2: swap(arr[2], arr[2]) → {2,3,1} (no change)
-│   │       │       ├── Call: idx=3, arr={2,3,1}
-│   │       │       │   └── Base case: Add {2,3,1} to nv
-│   │       │       └── Backtrack: swap(arr[2], arr[2]) → {2,3,1}
-│   │       └── Backtrack: swap(arr[1], arr[2]) → {2,1,3}
-│   └── Backtrack: swap(arr[0], arr[1]) → {1,2,3}
-└── i=2: swap(arr[0], arr[2]) → {3,2,1}
-    ├── Call: idx=1, arr={3,2,1}
-    │   ├── i=1: swap(arr[1], arr[1]) → {3,2,1} (no change)
-    │   │   ├── Call: idx=2, arr={3,2,1}
-    │   │   │   └── i=2: swap(arr[2], arr[2]) → {3,2,1} (no change)
-    │   │   │       ├── Call: idx=3, arr={3,2,1}
-    │   │   │       │   └── Base case: Add {3,2,1} to nv
-    │   │   │       └── Backtrack: swap(arr[2], arr[2]) → {3,2,1}
-    │   │   └── Backtrack: swap(arr[1], arr[1]) → {3,2,1}
-    │   └── i=2: swap(arr[1], arr[2]) → {3,1,2}
-    │       ├── Call: idx=2, arr={3,1,2}
-    │       │   └── i=2: swap(arr[2], arr[2]) → {3,1,2} (no change)
-    │       │       ├── Call: idx=3, arr={3,1,2}
-    │       │       │   └── Base case: Add {3,1,2} to nv
-    │       │       └── Backtrack: swap(arr[2], arr[2]) → {3,1,2}
-    │       └── Backtrack: swap(arr[1], arr[2]) → {3,2,1}
-    └── Backtrack: swap(arr[0], arr[2]) → {1,2,3}
+
+### N-Queens Backtracking Visualization (N=4)
+
+#### Initial Board
 ```
+. . . .
+. . . .
+. . . .
+. . . .
+```
+
+#### The Backtracking Process
+
+##### Column 0 Exploration
+
+1. **Try row=0, col=0**
+   - Is it safe? YES
+   - Place queen and move to next column
+   ```
+   Q . . .
+   . . . .
+   . . . .
+   . . . .
+   ```
+
+##### Column 1 Exploration (after placing queen at row=0, col=0)
+
+2. **Try row=0, col=1**
+   - Is it safe? NO (same row attack)
+   
+3. **Try row=1, col=1**
+   - Is it safe? NO (diagonal attack)
+   
+4. **Try row=2, col=1**
+   - Is it safe? YES
+   - Place queen and move to next column
+   ```
+   Q . . .
+   . . . .
+   . Q . .
+   . . . .
+   ```
+
+##### Column 2 Exploration (after placing queens at [0,0] and [2,1])
+
+5. **Try row=0, col=2**
+   - Is it safe? NO (diagonal attack from [2,1])
+   
+6. **Try row=1, col=2**
+   - Is it safe? NO (diagonal attack from [0,0])
+   
+7. **Try row=2, col=2**
+   - Is it safe? NO (same row as [2,1])
+   
+8. **Try row=3, col=2**
+   - Is it safe? NO (diagonal attack from [2,1])
+   
+9. **BACKTRACK:** No valid placement in column 2, so remove queen from [2,1]
+   ```
+   Q . . .
+   . . . .
+   . . . .
+   . . . .
+   ```
+
+##### Column 1 Exploration (continued)
+
+10. **Try row=3, col=1**
+    - Is it safe? YES
+    - Place queen and move to next column
+    ```
+    Q . . .
+    . . . .
+    . . . .
+    . Q . .
+    ```
+
+##### Column 2 Exploration (after placing queens at [0,0] and [3,1])
+
+11. **Try row=0, col=2**
+    - Is it safe? NO (diagonal attack)
+    
+12. **Try row=1, col=2**
+    - Is it safe? YES
+    - Place queen and move to next column
+    ```
+    Q . . .
+    . . Q .
+    . . . .
+    . Q . .
+    ```
+
+##### Column 3 Exploration (after placing queens at [0,0], [3,1], and [1,2])
+
+13. **Try row=0, col=3**
+    - Is it safe? NO (diagonal attack)
+    
+14. **Try row=1, col=3**
+    - Is it safe? NO (same row attack)
+    
+15. **Try row=2, col=3**
+    - Is it safe? YES
+    - Place queen and we've reached the end!
+    ```
+    Q . . .
+    . . Q .
+    . . . Q
+    . Q . .
+    ```
+    
+16. **SOLUTION FOUND!** Add to answer list
+
+17. **BACKTRACK:** Remove queen from [2,3] and try next row
+    ```
+    Q . . .
+    . . Q .
+    . . . .
+    . Q . .
+    ```
+
+18. **Try row=3, col=3**
+    - Is it safe? NO (same row attack)
+    
+19. **BACKTRACK:** No more options in column 3, so remove queen from [1,2]
+    ```
+    Q . . .
+    . . . .
+    . . . .
+    . Q . .
+    ```
+
+##### Column 2 Exploration (continued)
+
+... (continuing the backtracking process through all possibilities)
+
+#### Final Solutions for N=4
+
+##### Solution 1
+```
+. Q . .
+. . . Q
+Q . . .
+. . Q .
+```
+
+##### Solution 2
+```
+. . Q .
+Q . . .
+. . . Q
+. Q . .
+```
+
+The algorithm found 2 solutions for N=4.
 
 ## Contribution
 Feel free to contribute by submitting issues or pull requests. Make sure to follow the contribution guidelines.
